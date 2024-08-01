@@ -1,0 +1,42 @@
+[
+    {
+      "id": 1750004986,
+      "nombre": "ABRIL CHAMORRO CARLOS ANDRES",
+      "email": "jose.jimenez@iess.gob.ec",
+      "nivel": "C1",
+      "fechaExamen": "2022/01/01",
+      "cumpleRequisito": 1,
+      "certificadoEnviado": 0
+      
+    },
+    {
+        "id": 1725451767,
+        "nombre": "ACOSTA FRANCO LUIS RICARDO",
+        "email": "john.doe@example.com",
+        "nivel": "A2",
+        "fechaExamen": "2022/01/01",
+        "cumpleRequisito": 1,
+        "certificadoEnviado": 1
+  
+      },
+      {
+        "id": 604098640,
+        "nombre": "ACURIO PADILLA SILVIA PATRICIA",
+        "email": "john.doe@example.com",
+        "nivel": "B2",
+        "fechaExamen": "2024/01/12",
+        "cumpleRequisito": 1,
+        "certificadoEnviado": 0
+  
+      },
+      {
+        "id": 1803643491,
+        "nombre": "AGUAYO SALAZAR CARLOS DANIEL",
+        "email": "john.doe@example.com",
+        "nivel": "B1",
+        "fechaExamen": "2024/07/26",
+        "cumpleRequisito": 1,
+        "certificadoEnviado": 0
+  
+      }
+  ]
