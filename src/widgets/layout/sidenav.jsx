@@ -96,7 +96,7 @@ export function Sidenav({ brandImg, brandName, routes }) {
 }
 
 Sidenav.defaultProps = {
-  brandImg: "/img/logo-ct.png",
+  brandImg: "/img/logoutpl.jpg",
   brandName: "Sistema Gestión Certificados Académicos",
 };
 

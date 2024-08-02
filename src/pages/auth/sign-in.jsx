@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from './../../firebase';
+import { auth } from '../../firebase';
 import {
   Card,
   Input,
@@ -9,7 +9,6 @@ import {
   Button,
   Typography,
 } from "@material-tailwind/react";
-import { Link } from "react-router-dom";
 
 export function SignIn() {
   const [email, setEmail] = useState('');
@@ -31,6 +30,9 @@ export function SignIn() {
     <section className="m-8 flex gap-4">
       <div className="w-full lg:w-3/5 mt-24">
         <div className="text-center">
+         <div>
+         <img src="/img/logoutpl.jpg" alt="Logo" className="mx-auto mb-6 h-20 w-25 rounded-3xl" />
+         </div>
           <Typography variant="h2" className="font-bold mb-4">BIENVENIDOS AL SGCA</Typography>
           <Typography variant="paragraph" color="blue-gray" className="text-lg font-normal">Ingresa tu email y contraseña para Iniciar Sesión.</Typography>
         </div>

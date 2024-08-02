@@ -8,12 +8,10 @@ import {
   Typography,
   Button,
   Input,
-  Avatar,
-  Select,
-  Option,
+ 
 } from "@material-tailwind/react";
 import axios from 'axios';
-import imgPDF from '../../../public/img/1.jpg'
+
 import QRCode from 'qrcode';
 export function TablesStudents() {
   const [students, setStudents] = useState([]);
@@ -25,7 +23,7 @@ export function TablesStudents() {
 
  //const urlGetStudentsFirebase = 'http://127.0.0.1:5001/demopp-fb74e/us-central1/getStudents'
  //const urlGetStudentsFirebase = 'http://localhost:5000/api/getStudents'
-  const urlGetStudentsFirebase = 'https://api-sgca.vercel.app/api/getStudents'
+  const urlGetStudentsFirebase = 'https://api-sgca-utpl.vercel.app/api/getStudents'
  const getStudents = async (collectionName) => {
       try {
         
@@ -44,7 +42,7 @@ export function TablesStudents() {
 
      //const urlGetCollectionsFirebase = 'http://127.0.0.1:5001/demopp-fb74e/us-central1/getCollections'
      //const urlGetCollectionsFirebase = 'http://localhost:5000/api/getCollections'
-     const urlGetCollectionsFirebase = 'https://api-sgca.vercel.app/api/getCollections'
+     const urlGetCollectionsFirebase = 'https://api-sgca-utpl.vercel.app/api/getCollections'
      
  
      const getCollections = async () => {
@@ -76,13 +74,17 @@ export function TablesStudents() {
     const doc = new jsPDF({ orientation: "landscape" });
     const date = student.fechaEnvio;
     // Cargar la imagen de plantilla
-    const imageUrl = imgPDF; // Actualiza esta ruta
+    const imageUrl = "/img/1.jpg"; // Actualiza esta ruta
     const image = new Image();
     image.src = imageUrl;
 
-    image.onload = () => {
+    image.onload = async() => {
       // Añadir la imagen al PDF
-     // doc.addImage(image, "JPG", 0, 0, 210, 297); // Ajusta las coordenadas y tamaño según tus necesidades
+            // Generar el código QR
+    const qrCodeData = `Certificado emitido por Universidad Técnica Particular de Loja para ${student.nombre}, Codigo: ${student.id}`;
+    const qrCodeImageUrl = await QRCode.toDataURL(qrCodeData);
+
+     // doc.addImage(image, "JPG", 0, 0, 210, 297); // 
       doc.addImage(image, "JPG", 0, 0, 297, 210);
       // Añadir texto sobre la imagen
       doc.setFontSize(17);
@@ -92,6 +94,8 @@ export function TablesStudents() {
           doc.text(date, 224, 154);
 
       // Guardar el PDF y crear un enlace de descarga
+      doc.addImage(qrCodeImageUrl, 'PNG', 250, 170, 40, 40); 
+
       const pdfUrl = doc.output("datauristring");
       const link = document.createElement("a");
       link.href = pdfUrl;
@@ -112,7 +116,7 @@ export function TablesStudents() {
         try {
 
            // Generar el código QR
-    const qrCodeData = `Certificado para ${student.nombre}, ID: ${student.id}`;
+    const qrCodeData = `Certificado emitido por Universidad Técnica Particular de Loja para ${student.nombre}, Codigo: ${student.id}`;
     const qrCodeImageUrl = await QRCode.toDataURL(qrCodeData);
 
           doc.addImage(image, "JPG", 0, 0, 297, 210);
@@ -122,8 +126,7 @@ export function TablesStudents() {
           doc.text(student.nivel, 195, 130);
           doc.text(date1, 224, 154);
           
-          doc.addImage(qrCodeImageUrl, 'PNG', 250, 10, 40, 40); // Ajusta las coordenadas y tamaño según tus necesidades
-
+          doc.addImage(qrCodeImageUrl, 'PNG', 250, 170, 40, 40); // 
           const pdfData = doc.output('datauristring').split(',')[1];
           resolve(pdfData);
         } catch (error) {
@@ -136,8 +139,11 @@ export function TablesStudents() {
   };
   //const urlSendEmailFirebase = 'http://127.0.0.1:5001/demopp-fb74e/us-central1/sendEmail'
   //const urlUpdateStudentStatusFirebase = 'http://127.0.0.1:5001/demopp-fb74e/us-central1/updateStudentStatusBd'
-  const urlSendEmailFirebase = 'https://api-sgca.vercel.app/send-email'
-  const urlUpdateStudentStatusFirebase = 'https://api-sgca.vercel.app/api/updateStudentStatusBd'
+  //const urlSendEmailFirebase = 'http://localhost:5000/send-email'
+  const urlSendEmailFirebase = 'https://api-sgca-utpl.vercel.app/send-email'
+  
+  //const urlUpdateStudentStatusFirebase = 'http://localhost:5000/api/updateStudentStatusBd'
+const urlUpdateStudentStatusFirebase = 'https://api-sgca-utpl.vercel.app/api/updateStudentStatusBd'
 
   const sendEmail = async (student, collectionName) => {
     
@@ -147,7 +153,7 @@ export function TablesStudents() {
     }
     try {
       const pdfData = await generatePDF(student);
-      //const response = await axios.post('http://localhost:5000/send-email', { student, pdfData });
+   
       
       const emailResponse = await axios.post(urlSendEmailFirebase, { student, pdfData });
       console.log('Respuesta del servidor:', emailResponse.data);
@@ -251,7 +257,7 @@ export function TablesStudents() {
             <table className="w-full min-w-[640px] table-auto">
               <thead>
                 <tr>
-                  {["Cédula", "Nombre", "Email", "Nivel", "Fecha Examen", "Fecha Envio","Cumple Requisitos", "Estado Certificado", "Acción Certificado"].map((el) => (
+                  {["Cédula", "Nombre", "Email", "Nivel", "Fecha Envio","Cumple Requisitos", "Enviado Certificado", "Acción"].map((el) => (
                     <th
                       key={el}
                       className="border-b border-blue-gray-50 py-3 px-5 text-left"
@@ -279,7 +285,7 @@ export function TablesStudents() {
                       <td className={className}>{student.nombre}</td>
                       <td className={className}>{student.email}</td>
                       <td className={className}>{student.nivel}</td>
-                      <td className={className}>{student.fechaExamen}</td>
+
                       <td className={className}>{student.fechaEnvio}</td>
                       <td className={className}>{student.cumpleRequisito === 1 ? "SI" : "NO"}</td>
                       <td className={className}>{student.certificadoEnviado === 1 ? "SI" : "NO"}</td>

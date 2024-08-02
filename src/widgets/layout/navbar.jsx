@@ -86,7 +86,7 @@ Navbar.defaultProps = {
   brandName: "Sistema Gestión Certificados Académicos",
   action: (
     <a
-      href="https://www.creative-tim.com/product/material-tailwind-dashboard-react"
+      href="https://localhost"
       target="_blank"
     >
       <Button variant="gradient" size="sm" fullWidth>

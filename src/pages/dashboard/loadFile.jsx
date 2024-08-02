@@ -53,7 +53,7 @@ const excelDateToJSDate = (serial) => {
     //const urlSaveStudentsFirebase='http://127.0.0.1:5001/demopp-fb74e/us-central1/saveStudents';
 
   //const urlSaveStudentsFirebase='http://localhost:5000/api/saveStudents';
-  const urlSaveStudentsFirebase='https://api-sgca.vercel.app/api/saveStudents';
+  const urlSaveStudentsFirebase='https://api-sgca-utpl.vercel.app/api/saveStudents';
   const handleSaveToDatabase = async () => {
   const chunkSize = 500; // Tamaño del fragmento
 
