@@ -21,14 +21,11 @@ export function TablesStudents() {
   const [collections, setCollections] = useState([]);
   const [ cedula, setCedula] = useState('');
 
- //const urlGetStudentsFirebase = 'http://127.0.0.1:5001/demopp-fb74e/us-central1/getStudents'
- //const urlGetStudentsFirebase = 'http://localhost:5000/api/getStudents'
+
   const urlGetStudentsFirebase = 'https://api-sgca-utpl.vercel.app/api/getStudents'
  const getStudents = async (collectionName) => {
       try {
         
-        
-        //const response = await axios.get(`http://localhost:5000/api/getStudents`, {
           const response = await axios.get(urlGetStudentsFirebase,{ 
           params: { collectionName: collectionName },
         });
@@ -40,14 +37,12 @@ export function TablesStudents() {
       }
     };
 
-     //const urlGetCollectionsFirebase = 'http://127.0.0.1:5001/demopp-fb74e/us-central1/getCollections'
-     //const urlGetCollectionsFirebase = 'http://localhost:5000/api/getCollections'
      const urlGetCollectionsFirebase = 'https://api-sgca-utpl.vercel.app/api/getCollections'
      
  
      const getCollections = async () => {
       try {
-        //const response = await axios.get('http://localhost:5000/api/getCollections');
+     
         const response = await axios.get(urlGetCollectionsFirebase);
         
         setCollections(response.data);
@@ -74,9 +69,13 @@ export function TablesStudents() {
     const doc = new jsPDF({ orientation: "landscape" });
     const date = student.fechaEnvio;
     // Cargar la imagen de plantilla
-    const imageUrl = "/img/1.jpg"; // Actualiza esta ruta
+    const imageUrl = "/img/1.jpg"; 
+    const imageUrl2 = "/img/2.jpg"; 
     const image = new Image();
     image.src = imageUrl;
+
+    const image2 = new Image();
+    image2.src = imageUrl2;
 
     image.onload = async() => {
       // Añadir la imagen al PDF
@@ -94,7 +93,10 @@ export function TablesStudents() {
           doc.text(date, 224, 154);
 
       // Guardar el PDF y crear un enlace de descarga
-      doc.addImage(qrCodeImageUrl, 'PNG', 250, 170, 40, 40); 
+      doc.addImage(qrCodeImageUrl, 'PNG', 265, 178, 30, 30); 
+       // Agregar una nueva página y la segunda imagen
+       doc.addPage();
+       doc.addImage(image2, "JPG", 0, 0, 297, 210);
 
       const pdfUrl = doc.output("datauristring");
       const link = document.createElement("a");
@@ -104,13 +106,17 @@ export function TablesStudents() {
     };
   };
 
+  
   const generatePDF = (student) => {
     return new Promise((resolve, reject) => {
       const doc = new jsPDF({ orientation: "landscape" });
       const date1 = obtenerFechaEnEspañol();
       const imageUrl = "/img/1.jpg"; // public
+      const imageUrl2 = "/img/2.jpg"; // public
       const image = new Image();
       image.src = imageUrl;
+      const image2 = new Image();
+      image2.src = imageUrl2;
   
       image.onload = async() => {
         try {
@@ -126,7 +132,10 @@ export function TablesStudents() {
           doc.text(student.nivel, 195, 130);
           doc.text(date1, 224, 154);
           
-          doc.addImage(qrCodeImageUrl, 'PNG', 250, 170, 40, 40); // 
+          doc.addImage(qrCodeImageUrl, 'PNG', 250, 170, 35, 35); // 
+
+          doc.addPage();
+          doc.addImage(image2, "JPG", 0, 0, 297, 210);
           const pdfData = doc.output('datauristring').split(',')[1];
           resolve(pdfData);
         } catch (error) {
@@ -137,12 +146,11 @@ export function TablesStudents() {
       image.onerror = (error) => reject(error);
     });
   };
-  //const urlSendEmailFirebase = 'http://127.0.0.1:5001/demopp-fb74e/us-central1/sendEmail'
-  //const urlUpdateStudentStatusFirebase = 'http://127.0.0.1:5001/demopp-fb74e/us-central1/updateStudentStatusBd'
-  //const urlSendEmailFirebase = 'http://localhost:5000/send-email'
+  
+
   const urlSendEmailFirebase = 'https://api-sgca-utpl.vercel.app/send-email'
   
-  //const urlUpdateStudentStatusFirebase = 'http://localhost:5000/api/updateStudentStatusBd'
+
 const urlUpdateStudentStatusFirebase = 'https://api-sgca-utpl.vercel.app/api/updateStudentStatusBd'
 
   const sendEmail = async (student, collectionName) => {
